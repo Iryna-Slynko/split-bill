@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Split Our Bill</title>
 </head>
 <body>
-
+<header>
+    <h1>Split our bill</h1>
+</header>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Chosen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="prod: ${receipt.getLines()}">
+        <td th:text="${prod.getTitle()}">Oranges</td>
+        <td th:text="${#numbers.formatDecimal(prod.getPrice(), 1, 2)}">0.99</td>
+        <td><input type="checkbox"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
