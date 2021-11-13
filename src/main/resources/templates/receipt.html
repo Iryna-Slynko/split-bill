@@ -23,27 +23,27 @@
 </head>
 
 <body>
-    <header>
-        <h1>Split our bill</h1>
+    <header class="py-5">
+        <h1 class="text-center display-5">Split our bill</h1>
     </header>
-    <div id="layout" class="container table-responsive">
+    <main class="container table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Claimed</th>
+                    <th class="col-2" scope="col">Claimed</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody id="receipt-table">
                 <tr th:each="prod: ${receipt.getLines()}">
-                    <th scope="row"><input type="checkbox">Available</th>
+                    <th scope="row"><input type="checkbox"></th>
                     <td th:text="${prod.getTitle()}">Oranges</td>
                     <td th:text="${#numbers.formatDecimal(prod.getPrice(), 1, 2)}">0.99</td>
                 </tr>
             </tbody>
         </table>
-    </div>
+    </main>
 </body>
 <script>
     document.querySelector("#receipt-table").addEventListener("click", function (event) {
