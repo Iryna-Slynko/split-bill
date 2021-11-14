@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ReceiptController {
-
-
         @GetMapping("/receipt")
         public void receipt(@RequestParam(name="name", required=false, defaultValue="Owner") String name, Model model) {
             model.addAttribute("name", name);

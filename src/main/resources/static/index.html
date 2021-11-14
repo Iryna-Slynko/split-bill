@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Analyse my receipt</title>
 </head>
 <body>
-    <a href="receipt">Click ME</a>
+    <a href="/receipt">Click ME</a>
+    <p>Read and extract the text from the image:</p>
+    <form method="POST" enctype="multipart/form-data" action="/extract-text">
+        <table>
+            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        </table>
+    </form>
 </body>
 </html>
