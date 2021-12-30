@@ -26,13 +26,15 @@ public class VisionController {
 
     @PostMapping("/extract-text")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
-        //detectText(file.getInputStream());
-        model.addAttribute("receipt",
-                Receipt.newDemoReceipt());
+        List<String> list = detectText(file.getInputStream());
+        Receipt r = Receipt.fromList(list);
+       // Receipt r = Receipt.newDemoReceipt2();
+        model.addAttribute("receipt",r
+                );
         return "receipt";
     }
     // Detects text in the specified image.
-    public static void detectText(InputStream fileStream) throws IOException {
+    public static List<String> detectText(InputStream fileStream) throws IOException {
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
         ByteString imgBytes = ByteString.readFrom(fileStream);
@@ -53,15 +55,16 @@ public class VisionController {
             for (AnnotateImageResponse res : responses) {
                 if (res.hasError()) {
                     System.out.format("Error: %s%n", res.getError().getMessage());
-                    return;
+                    return null;
                 }
 
-                // For full list of available annotations, see http://g.co/cloud/vision/docs
+                ArrayList<String> list = new ArrayList<>();
                 for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
-                    System.out.format("Text: %s%n", annotation.getDescription());
-                    System.out.format("Position : %s%n", annotation.getBoundingPoly());
+                    list.add(annotation.getDescription());
                 }
+                return list;
             }
         }
+        return null;
     }
 }

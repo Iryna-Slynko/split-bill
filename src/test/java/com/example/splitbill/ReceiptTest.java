@@ -1,40 +1,48 @@
 package com.example.splitbill;
 
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.EntityAnnotationOrBuilder;
+
+import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Receipt {
-    private ArrayList<ReceiptLine> lines = new ArrayList<>();
-    private static Pattern pricePattern = Pattern.compile("^\\d+((,|.)\\d{1,2})?$");
+import static org.junit.jupiter.api.Assertions.*;
 
-    @org.jetbrains.annotations.NotNull
-    public static Receipt fromList(List<String> recognisedList) {
-        Receipt r = new Receipt();
-        ArrayList<ReceiptLine> lines = new ArrayList<>();
-        String itemTitle = "";
-        for (String  recognisedLine:
-                recognisedList.stream().skip(1).toList()) {
-            if (recognisedLine.toUpperCase().contains("TOTAL")) {
-                break;
-            }
-            Matcher matcher = pricePattern.matcher(recognisedLine);
-            if (matcher.find()){
-                BigDecimal price = new BigDecimal(matcher.group());
-                lines.add(new ReceiptLine(itemTitle, price));
-            } else {
-                itemTitle = recognisedLine;
-            }
-        }
-        r.lines = lines;
-        return r;
-    }
-
-    public static Receipt newDemoReceipt2() {
-        String[] arr = new String[]{"finnbees",
+class ReceiptTest {
+    @Test
+    void fromList() {
+        String[] arr = new String[]{"""
+                HEN & HOG
+                ASHFORD
+                WICKLOW
+                BROWNIE
+                Cappucino
+                Americano coffee
+                deli
+                deli
+                2.70
+                3.20
+                3.00
+                3.50
+                3.50
+                Total:
+        VAT Total:
+        15.90
+        2.99
+        Paid By:
+        Cards
+        15.90
+        No Change Due
+        28/09/2021 14:12
+        GUEST
+        001-01-09408
+        Items 5
+        """,
+        "finnbees",
                 "Order Number",
                 "204145 (01)",
                 "Item Description",
@@ -89,21 +97,10 @@ public class Receipt {
                 ", finnbees, Order, Number, 204145, (01), Item, Description, PANINI, HC, 5.45, PANINI, HC, 5.45, SAMBO, CHIC, 5.45, OPEN, DEP, 3.00, ORANGE, JUICE, E/I, 2.75, ORANGE, JUICE, E/I, 2.75, ORANGE, JUICE, E/I, 2.75, AMERICANO, GRANDE, 3.00, GLAZED, DONUT, 2.50, FLAPJACK, E/I, 2.95, OPEN, DEP, 3.25, SUB, TOTAL, 39.30, 39.30, Credit, Card, Total, Items, 11, RCPT, NO:, 20414501, TILL, 1, TID:, ****5018, MID:, ***43444, KEEP, THIS, COPY, FOR, YOUR, RECORDS, 16/10/21, 15:04, 00080226, (VISA, CREDIT), VISA, APP, ID:, A000000031010, PAN, SEQ:, 01, TC:, FOBCAE676AE2A7B8, ****, 7714, **, 本, 中, SALE, AMOUNT, TOTAL, EUR39.30, EUR39.30, Youn, ACCOUNT]",
                 ""};
         List<String> list = Arrays.stream(arr).toList();
-        return fromList(list);
-    }
-
-    public ArrayList<ReceiptLine> getLines() {
-        return lines;
-    }
-
-    static public Receipt newDemoReceipt() {
-        Receipt r = new Receipt();
-        r.lines.add(new ReceiptLine("banana", new BigDecimal("5")));
-        r.lines.add(new ReceiptLine("Ice cream", new BigDecimal("5")));
-        r.lines.add(new ReceiptLine("Capuccino", new BigDecimal("3")));
-        r.lines.add(new ReceiptLine("Bread", new BigDecimal("50")));
-        r.lines.add(new ReceiptLine("Water", new BigDecimal("1000")));
-
-        return r;
+        Receipt r = Receipt.fromList(list);
+        var lines = r.getLines();
+        assertEquals(11, lines.size());
+        assertEquals(new BigDecimal("5.45"), lines.get(0).getPrice());
+        assertEquals("PANINI HC", lines.get(0).getTitle());
     }
 }
