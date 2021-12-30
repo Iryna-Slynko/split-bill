@@ -42,7 +42,7 @@ class ReceiptTest {
         001-01-09408
         Items 5
         """,
-        "finnbees",
+                "finnbees",
                 "Order Number",
                 "204145 (01)",
                 "Item Description",
@@ -102,5 +102,123 @@ class ReceiptTest {
         assertEquals(11, lines.size());
         assertEquals(new BigDecimal("5.45"), lines.get(0).getPrice());
         assertEquals("PANINI HC", lines.get(0).getTitle());
+    }
+
+    void fromListWithStrangeNumbers() {
+        var list = new String[]{"""
+                Mount
+                Usher
+        gardens
+        Avoca @ Mount Usher Gardens
+                Ashford
+        Co.Wicklow
+        Tel:+353 404 40116
+        Reg : 060
+        10:05 22/09/21
+        Table : 117
+        Ref: 060210922093650
+        Description
+                Qty
+        Price
+        PANCAKES - MACADAMIA & BL
+        LARGE AMERICANO - TS
+        TS
+        11.00
+        3.65
+        3.95
+        LARGE CAPPUCINO
+        1
+        Total Due
+        18.60
+        """, "Mount", "Usher", "gardens", "Avoca", "@", "Mount", "Usher", "Gardens", "Ashford", "Co.Wicklow", "Tel:+353", "404", "40116", "Reg", ":", "060", "10:05", "22/09/21", "Table", ":", "117", "Ref:", "060210922093650", "Description", "Qty", "Price", "PANCAKES", "-", "MACADAMIA", "&", "BL", "LARGE", "AMERICANO", "-", "TS", "TS", "11.00", "3.65", "3.95", "LARGE", "CAPPUCINO", "1", "Total", "Due", "18.60"}
+    }
+
+    void fromColumnList() {
+        var list = new String[]{
+                """
+        HEN & HOG
+        ASHFORD
+                WICKLOW
+        BROWNIE
+                Cappucino
+        Americano coffee
+        deli
+                deli
+        2.70
+        3.20
+        3.00
+        3.50
+        3.50
+        Total:
+        VAT Total:
+        15.90
+        2.99
+        Paid By:
+        Cards
+        15.90
+        No Change Due
+        28/09/2021 14:12
+        GUEST
+        001-01-09408
+        Items 5
+        """, "HEN", "&", "HOG", "ASHFORD", "WICKLOW", "BROWNIE", "Cappucino", "Americano", "coffee", "deli", "deli", "2.70", "3.20", "3.00", "3.50", "3.50", "Total:", "VAT", "Total:", "15.90", 2.99, Paid, "By:", "Cards", "15.90", "No", "Change", "Due", "28/09/2021", "14:12", "GUEST", "001-01-09408", "Items", "5"
+        };
+    }
+
+    void fromListWithQuantity() {
+        var list = new String[]{"""                
+                SSP UK
+        LCY - City Bar & Grill
+        8411131
+        432 Ismat A
+        Tbl 809/2
+        Chk 3758
+        06May'16 18:14
+        Gst 1
+        Eat In
+        1 Maple Glaze Duck
+        1 0live & Bread
+        22.95
+        2.95
+        Total
+        25.90
+         """, "SSP", "UK", "LCY", "-", "City", "Bar", "&", "Grill", "8411131", "432", "Ismat", "A", "Tbl", "809/2", "Chk", "3758", "06May'16", "18:14", "Gst", "1", "Eat", "In", "1", "Maple", "Glaze", "Duck", "1", "0live", "&", "Bread", "22.95", "2.95", "Total", "25.90"
+        };
+    }
+
+    void fromListWithGroups() {
+        var list = new String[]{"""
+                place Vour
+                OUTDOORS
+        E001 Eatin
+        TABLE: 25
+        25 Sep 2021 17:13:14
+        Requested for: NOW
+        Server: Staff Covers: 5
+        Price
+        Qty Description
+        Food
+        Panna Cotta
+        Chocolate Cake
+        12.00
+        Affogato
+        Tiramisu Dolcetti
+        6.00
+        5.00
+        5.00
+        1
+        1
+        Drinks
+        Hot Chocolate
+        1
+        2.80
+        Stem Count:
+        6.
+        Total:
+        30.80
+                ** NOT PAID **
+                """
+                , "place", "Vour", "OUTDOORS", "E001", "Eatin", "TABLE:", "25", "25", "Sep", "2021", "17:13:14", "Requested", "for:", "NOW", "Server:", "Staff", "Covers:", "5", "Price", "Qty", "Description", "Food", "Panna", "Cotta", "Chocolate", "Cake", "12.00", "Affogato", "Tiramisu", "Dolcetti", "6.00", "5.00", "5.00", "1", "1", "Drinks", "Hot", "Chocolate", "1", "2.80", "Stem", "Count:", "6.", "Total:", "30.80", "**", "NOT", "PAID", "**"
+	};
     }
 }
