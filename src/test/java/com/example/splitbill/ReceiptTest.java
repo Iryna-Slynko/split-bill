@@ -130,7 +130,8 @@ class ReceiptTest {
         1
         Total Due
         18.60
-        """, "Mount", "Usher", "gardens", "Avoca", "@", "Mount", "Usher", "Gardens", "Ashford", "Co.Wicklow", "Tel:+353", "404", "40116", "Reg", ":", "060", "10:05", "22/09/21", "Table", ":", "117", "Ref:", "060210922093650", "Description", "Qty", "Price", "PANCAKES", "-", "MACADAMIA", "&", "BL", "LARGE", "AMERICANO", "-", "TS", "TS", "11.00", "3.65", "3.95", "LARGE", "CAPPUCINO", "1", "Total", "Due", "18.60"}
+        """, "Mount", "Usher", "gardens", "Avoca", "@", "Mount", "Usher", "Gardens", "Ashford", "Co.Wicklow", "Tel:+353", "404", "40116", "Reg", ":", "060", "10:05", "22/09/21", "Table", ":", "117", "Ref:", "060210922093650", "Description", "Qty", "Price", "PANCAKES", "-", "MACADAMIA", "&", "BL", "LARGE", "AMERICANO", "-", "TS", "TS", "11.00", "3.65", "3.95", "LARGE", "CAPPUCINO", "1", "Total", "Due", "18.60"
+        };
     }
 
     void fromColumnList() {
@@ -161,7 +162,7 @@ class ReceiptTest {
         GUEST
         001-01-09408
         Items 5
-        """, "HEN", "&", "HOG", "ASHFORD", "WICKLOW", "BROWNIE", "Cappucino", "Americano", "coffee", "deli", "deli", "2.70", "3.20", "3.00", "3.50", "3.50", "Total:", "VAT", "Total:", "15.90", 2.99, Paid, "By:", "Cards", "15.90", "No", "Change", "Due", "28/09/2021", "14:12", "GUEST", "001-01-09408", "Items", "5"
+        """, "HEN", "&", "HOG", "ASHFORD", "WICKLOW", "BROWNIE", "Cappucino", "Americano", "coffee", "deli", "deli", "2.70", "3.20", "3.00", "3.50", "3.50", "Total:", "VAT", "Total:", "15.90", "2.99", "Paid", "By:", "Cards", "15.90", "No", "Change", "Due", "28/09/2021", "14:12", "GUEST", "001-01-09408", "Items", "5"
         };
     }
 
