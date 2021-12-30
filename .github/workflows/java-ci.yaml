@@ -23,8 +23,3 @@ jobs:
         env:
           GOOGLE_CLOUD_PROJECT: myprojectepa
         run: mvn --batch-mode --update-snapshots verify
-      - name: MegaLinter
-        id: ml
-        # You can override MegaLinter flavor used to have faster performances
-        # More info at https://megalinter.github.io/flavors/
-        uses: megalinter/megalinter/flavors/java@v5
