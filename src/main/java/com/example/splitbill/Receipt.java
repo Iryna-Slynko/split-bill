@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Receipt class defines the receipt and contains item list
+ */
 public class Receipt {
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
     private static Pattern pricePattern = Pattern.compile("^\\d+((,|.)\\d{1,2})?$");
@@ -16,13 +19,12 @@ public class Receipt {
         Receipt r = new Receipt();
         ArrayList<ReceiptLine> lines = new ArrayList<>();
         String itemTitle = "";
-        for (String  recognisedLine:
-                recognisedList.stream().skip(1).toList()) {
+        for (String recognisedLine : recognisedList.stream().skip(1).toList()) {
             if (recognisedLine.toUpperCase().contains("TOTAL")) {
                 break;
             }
             Matcher matcher = pricePattern.matcher(recognisedLine);
-            if (matcher.find()){
+            if (matcher.find()) {
                 BigDecimal price = new BigDecimal(matcher.group());
                 lines.add(new ReceiptLine(itemTitle, price));
             } else {
@@ -34,7 +36,7 @@ public class Receipt {
     }
 
     public static Receipt newDemoReceipt2() {
-        String[] arr = new String[]{"finnbees",
+        String[] arr = new String[] { "finnbees",
                 "Order Number",
                 "204145 (01)",
                 "Item Description",
@@ -87,7 +89,7 @@ public class Receipt {
                 "EUR39.30",
                 "Youn ACCOUNT",
                 ", finnbees, Order, Number, 204145, (01), Item, Description, PANINI, HC, 5.45, PANINI, HC, 5.45, SAMBO, CHIC, 5.45, OPEN, DEP, 3.00, ORANGE, JUICE, E/I, 2.75, ORANGE, JUICE, E/I, 2.75, ORANGE, JUICE, E/I, 2.75, AMERICANO, GRANDE, 3.00, GLAZED, DONUT, 2.50, FLAPJACK, E/I, 2.95, OPEN, DEP, 3.25, SUB, TOTAL, 39.30, 39.30, Credit, Card, Total, Items, 11, RCPT, NO:, 20414501, TILL, 1, TID:, ****5018, MID:, ***43444, KEEP, THIS, COPY, FOR, YOUR, RECORDS, 16/10/21, 15:04, 00080226, (VISA, CREDIT), VISA, APP, ID:, A000000031010, PAN, SEQ:, 01, TC:, FOBCAE676AE2A7B8, ****, 7714, **, 本, 中, SALE, AMOUNT, TOTAL, EUR39.30, EUR39.30, Youn, ACCOUNT]",
-                ""};
+                "" };
         List<String> list = Arrays.stream(arr).toList();
         return fromList(list);
     }
