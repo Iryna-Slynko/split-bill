@@ -1,5 +1,6 @@
 package com.example.splitbill;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class VisionController {
         ByteString imgBytes = ByteString.readFrom(fileStream);
 
         Image img = Image.newBuilder().setContent(imgBytes).build();
-        Feature feat = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
+        Feature feat = Feature.newBuilder().setType(Feature.Type.DOCUMENT_TEXT_DETECTION ).build();
         AnnotateImageRequest request =
                 AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
         requests.add(request);
@@ -51,19 +52,37 @@ public class VisionController {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             List<AnnotateImageResponse> responses = response.getResponsesList();
 
+            ArrayList<String> list = new ArrayList<>();
+            ArrayList<Integer> listPosition = new ArrayList<>();
             for (AnnotateImageResponse res : responses) {
+                /* save response
+                FileOutputStream fos = new FileOutputStream(res.getTextAnnotations(1).getDescription());
+                res.writeTo(fos);
+                fos.flush();
+                fos.close();
+                 /**/
                 if (res.hasError()) {
                     System.out.format("Error: %s%n", res.getError().getMessage());
                     return null;
                 }
 
-                ArrayList<String> list = new ArrayList<>();
+
                 for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
-                    list.add(annotation.getDescription());
+                    int index = 0;
+                    int itemY = annotation.getBoundingPoly().getVertices(0).getY();
+                    if (listPosition.size() > 0) {
+                        for(int i = listPosition.size() - 1; i >=0; i--) {
+                            if (listPosition.get(i) <= itemY) {
+                                index = i + 1;
+                                break;
+                            }
+                        }
+                    }
+                    list.add(index, annotation.getDescription());
+                    listPosition.add(index, itemY);
                 }
-                return list;
             }
+            return list;
         }
-        return null;
     }
 }
