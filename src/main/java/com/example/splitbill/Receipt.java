@@ -32,6 +32,9 @@ public class Receipt {
             return null;
         }
 
+        // assumptions:
+        // the first element is the whole recognized document - can be verified later
+        // array is organised in one of two directions: line by line horizontally(usually), sometimes(vertically)
 
         for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
             int index = 0;
@@ -47,13 +50,6 @@ public class Receipt {
             recognisedList.add(index, annotation.getDescription());
             listPosition.add(index, itemY);
         }
-
-        return fromList(recognisedList);
-
-    }
-
-    @org.jetbrains.annotations.NotNull
-    public static Receipt fromList(List<String> recognisedList) {
         Receipt r = new Receipt();
         ArrayList<ReceiptLine> lines = new ArrayList<>();
         String itemTitle = "";
