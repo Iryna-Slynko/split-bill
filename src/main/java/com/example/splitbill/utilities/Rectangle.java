@@ -33,6 +33,13 @@ public class Rectangle {
         this.y2 = y2;
     }
 
+    public Rectangle(Integer x1, Integer x2, Integer y1, Integer y2) {
+        this.x1 = x1;
+        this.x2 = x2;
+        this.y1 = y1;
+        this.y2 = y2;
+    }
+
     @Override
     public String toString() {
         return "Rectangle{" +
@@ -51,14 +58,14 @@ public class Rectangle {
     }
 
     public Position compareLocation(Rectangle otherRectangle) {
-        if (this.y2 > otherRectangle.y1) {
+        if (this.y2 < otherRectangle.y1) {
             return Position.HIGHER;
         }
-        if (this.y1 < otherRectangle.y2) {
+        if (this.y1 > otherRectangle.y2) {
             return Position.LOWER;
         }
 
-        if ((this.x2 + 10) > otherRectangle.x1) {
+        if ((this.x2 + (this.y2 - this.y1)) > otherRectangle.x1) {
             return Position.RIGHT_JOIN;
         }
 
