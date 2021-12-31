@@ -58,17 +58,21 @@ public class Rectangle {
     }
 
     public Position compareLocation(Rectangle otherRectangle) {
-        if (this.y2 < otherRectangle.y1) {
+        if ((this.y2 - (this.y2 - this.y1) * 0.2) < otherRectangle.y1) {
             return Position.HIGHER;
         }
         if (this.y1 > otherRectangle.y2) {
             return Position.LOWER;
         }
 
-        if ((this.x2 + (this.y2 - this.y1)) > otherRectangle.x1) {
+        if ((this.x2 < otherRectangle.x2) && ((this.x2 + (this.y2 - this.y1)) > otherRectangle.x1)) {
             return Position.RIGHT_JOIN;
         }
 
         return Position.RIGHT_SEPARATE;
+    }
+
+    public void merge(Rectangle otherRectangle) {
+        this.x2 = otherRectangle.x2;
     }
 }
