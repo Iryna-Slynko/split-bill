@@ -1,13 +1,11 @@
 package com.example.splitbill;
 
+import com.example.splitbill.utilities.Rectangle;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.EntityAnnotation;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,12 +13,13 @@ import java.util.regex.Pattern;
  * Receipt class defines the receipt and contains item list
  */
 public class Receipt {
+
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
     private static Pattern pricePattern = Pattern.compile("^\\d+((,|.)\\d{1,2})?$");
 
     public static Receipt fromImageRecognitionResponse(AnnotateImageResponse res) {
         ArrayList<String> recognisedList = new ArrayList<>();
-        ArrayList<Integer> listPosition = new ArrayList<>();
+        ArrayList<Rectangle> listPosition = new ArrayList<>();
             /* save response
             FileOutputStream fos = new FileOutputStream(res.getTextAnnotations(1).getDescription());
             res.writeTo(fos);
@@ -36,19 +35,28 @@ public class Receipt {
         // the first element is the whole recognized document - can be verified later
         // array is organised in one of two directions: line by line horizontally(usually), sometimes(vertically)
 
-        for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
-            int index = 0;
-            int itemY = annotation.getBoundingPoly().getVertices(0).getY();
+        for (EntityAnnotation annotation : res.getTextAnnotationsList().stream().skip(1).toList()) {
+            Rectangle item = new Rectangle(annotation.getBoundingPoly().getVerticesList());
+            Boolean added = false;
             if (listPosition.size() > 0) {
                 for (int i = listPosition.size() - 1; i >= 0; i--) {
-                    if (listPosition.get(i) <= itemY) {
-                        index = i + 1;
+                    var result = item.compareLocation(listPosition.get(i));
+                    if (result == Rectangle.Position.RIGHT_JOIN) {
+                        recognisedList.set(i, recognisedList.get(i) + " " + annotation.getDescription());
+                        added = true;
+                        break;
+                    } else if ((result == Rectangle.Position.RIGHT_SEPARATE) || (result == Rectangle.Position.LOWER)){
+                        recognisedList.add(i, annotation.getDescription());
+                        listPosition.add(i, item);
+                        added = true;
                         break;
                     }
                 }
             }
-            recognisedList.add(index, annotation.getDescription());
-            listPosition.add(index, itemY);
+            if (!added) {
+                recognisedList.add(annotation.getDescription());
+                listPosition.add(item);
+            }
         }
         Receipt r = new Receipt();
         ArrayList<ReceiptLine> lines = new ArrayList<>();
