@@ -19,7 +19,7 @@ public class Receipt {
     private static Pattern pricePattern = Pattern.compile("^\\d+((,|.)\\d{1,2})?$");
 
     public static Receipt fromImageRecognitionResponse(AnnotateImageResponse res) {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> recognisedList = new ArrayList<>();
         ArrayList<Integer> listPosition = new ArrayList<>();
             /* save response
             FileOutputStream fos = new FileOutputStream(res.getTextAnnotations(1).getDescription());
@@ -44,11 +44,11 @@ public class Receipt {
                     }
                 }
             }
-            list.add(index, annotation.getDescription());
+            recognisedList.add(index, annotation.getDescription());
             listPosition.add(index, itemY);
         }
 
-        return fromList(list);
+        return fromList(recognisedList);
 
     }
 
@@ -71,65 +71,6 @@ public class Receipt {
         }
         r.lines = lines;
         return r;
-    }
-
-    public static Receipt newDemoReceipt2() {
-        String[] arr = new String[]{"finnbees",
-                "Order Number",
-                "204145 (01)",
-                "Item Description",
-                "PANINI HC",
-                "5.45",
-                "PANINI HC",
-                "5.45",
-                "SAMBO CHIC",
-                "5.45",
-                "OPEN DEP",
-                "3.00",
-                "ORANGE JUICE E/I",
-                "2.75",
-                "ORANGE JUICE E/I",
-                "2.75",
-                "ORANGE JUICE E/I",
-                "2.75",
-                "AMERICANO GRANDE",
-                "3.00",
-                "GLAZED DONUT",
-                "2.50",
-                "FLAPJACK E/I",
-                "2.95",
-                "OPEN DEP",
-                "3.25",
-                "SUB TOTAL",
-                "39.30",
-                "39.30",
-                "Credit Card",
-                "Total Items",
-                "11",
-                "RCPT NO: 20414501",
-                "TILL 1",
-                "TID: ****5018",
-                "MID: ***43444",
-                "KEEP THIS COPY FOR YOUR RECORDS",
-                "16/10/21 15:04",
-                "00080226",
-                "(VISA CREDIT)",
-                "VISA",
-                "APP ID: A000000031010",
-                "PAN SEQ: 01",
-                "TC: FOBCAE676AE2A7B8",
-                "**** 7714",
-                "**本中",
-                "SALE",
-                "AMOUNT",
-                "TOTAL",
-                "EUR39.30",
-                "EUR39.30",
-                "Youn ACCOUNT",
-                ", finnbees, Order, Number, 204145, (01), Item, Description, PANINI, HC, 5.45, PANINI, HC, 5.45, SAMBO, CHIC, 5.45, OPEN, DEP, 3.00, ORANGE, JUICE, E/I, 2.75, ORANGE, JUICE, E/I, 2.75, ORANGE, JUICE, E/I, 2.75, AMERICANO, GRANDE, 3.00, GLAZED, DONUT, 2.50, FLAPJACK, E/I, 2.95, OPEN, DEP, 3.25, SUB, TOTAL, 39.30, 39.30, Credit, Card, Total, Items, 11, RCPT, NO:, 20414501, TILL, 1, TID:, ****5018, MID:, ***43444, KEEP, THIS, COPY, FOR, YOUR, RECORDS, 16/10/21, 15:04, 00080226, (VISA, CREDIT), VISA, APP, ID:, A000000031010, PAN, SEQ:, 01, TC:, FOBCAE676AE2A7B8, ****, 7714, **, 本, 中, SALE, AMOUNT, TOTAL, EUR39.30, EUR39.30, Youn, ACCOUNT]",
-                ""};
-        List<String> list = Arrays.stream(arr).toList();
-        return fromList(list);
     }
 
     public ArrayList<ReceiptLine> getLines() {
