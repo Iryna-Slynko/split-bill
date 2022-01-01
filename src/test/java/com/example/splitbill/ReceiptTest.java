@@ -30,6 +30,36 @@ class ReceiptTest {
         FileInputStream fis = new FileInputStream("src/fixtures/SSP");
         var air = AnnotateImageResponse.parseFrom(fis);
         var r = Receipt.fromImageRecognitionResponse(air);
+
         assertEquals(2, r.getLines().size());
+        assertEquals("Maple Glaze Duck", r.getLines().get(0).getTitle());
+        assertEquals("Olive & Bread", r.getLines().get(1).getTitle());
+    }
+
+    @Test
+    void testOutdoorsFixtureWithGroups() throws IOException {
+        FileInputStream fis = new FileInputStream("src/fixtures/OUTDOORS");
+        var air = AnnotateImageResponse.parseFrom(fis);
+        var r = Receipt.fromImageRecognitionResponse(air);
+        assertEquals(6, r.getLines().size());
+        assertEquals("Panna Cotta", r.getLines().get(0).getTitle());
+        assertEquals("Panna Cotta", r.getLines().get(1).getTitle());
+        assertEquals(new BigDecimal("6.00"), r.getLines().get(0).getPrice());
+        assertEquals(new BigDecimal("6.00"), r.getLines().get(1).getPrice());
+
+    }
+
+    @Test
+    void testGardensFixture() throws IOException {
+        FileInputStream fis = new FileInputStream("src/fixtures/Mount");
+        var air = AnnotateImageResponse.parseFrom(fis);
+        var r = Receipt.fromImageRecognitionResponse(air);
+        assertEquals(3, r.getLines().size());
+        assertEquals("PANCAKES - MACADAMIA & BL", r.getLines().get(0).getTitle());
+        assertEquals(new BigDecimal ("11.00"), r.getLines().get(0).getPrice());
+        assertEquals("LARGE AMERICANO - TS", r.getLines().get(1).getTitle());
+        assertEquals(BigDecimal.valueOf(3.65), r.getLines().get(1).getPrice());
+        assertEquals("LARGE CAPPUCINO TS", r.getLines().get(2).getTitle());
+        assertEquals(BigDecimal.valueOf(3.95), r.getLines().get(2).getPrice());
     }
 }

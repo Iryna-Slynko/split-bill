@@ -18,7 +18,7 @@ public class Receipt {
     private static Pattern pricePattern = Pattern.compile("^[1-9]\\d*(,|\\.)\\d{2}$");
 
     public static Receipt fromImageRecognitionResponse(AnnotateImageResponse res) {
-        ArrayList<String> recognisedList = new ArrayList<>();
+        ArrayList<ArrayList<String>> recognisedList = new ArrayList<>();
         ArrayList<Rectangle> listPosition = new ArrayList<>();
             /* save response
             FileOutputStream fos = new FileOutputStream(res.getTextAnnotations(1).getDescription());
@@ -41,43 +41,84 @@ public class Receipt {
             if (listPosition.size() > 0) {
                 for (int i = listPosition.size() - 1; i >= 0; i--) {
                     var result = listPosition.get(i).compareLocation(item);
-                    if (result == Rectangle.Position.RIGHT_JOIN) {
-                        recognisedList.set(i, recognisedList.get(i) + " " + annotation.getDescription());
+                    if ((result == Rectangle.Position.RIGHT_JOIN) || (result == Rectangle.Position.RIGHT_SEPARATE)) {
+                        recognisedList.get(i).add(annotation.getDescription());
                         listPosition.get(i).merge(item);
                         added = true;
                         break;
-                    } else if ((result == Rectangle.Position.RIGHT_SEPARATE) || (result == Rectangle.Position.HIGHER)) {
-                        if (i < (recognisedList.size()) - 1) {
-                            recognisedList.add(i+1, annotation.getDescription());
-                            listPosition.add(i+1, item);
-                            added = true;
-                        }
+                    } else if (result == Rectangle.Position.HIGHER) {
                         break;
                     }
                 }
             }
             if (!added) {
-                recognisedList.add(annotation.getDescription());
+                ArrayList<String> list = new ArrayList<>();
+                recognisedList.add(list);
+                list.add(annotation.getDescription());
                 listPosition.add(item);
             }
         }
         Receipt r = new Receipt();
         ArrayList<ReceiptLine> lines = new ArrayList<>();
-        String itemTitle = "";
-        for (String recognisedLine : recognisedList.stream().skip(1).toList()) {
-            if (recognisedLine.toUpperCase().contains("TOTAL")) {
+        for (ArrayList<String> recognisedLine : recognisedList) {
+            if (isTotalLine(recognisedLine)) {
                 break;
             }
-            Matcher matcher = pricePattern.matcher(recognisedLine);
-            if (matcher.find()) {
-                BigDecimal price = new BigDecimal(matcher.group());
-                lines.add(new ReceiptLine(itemTitle, price));
-            } else {
-                itemTitle = recognisedLine;
-            }
+            lines.addAll(getReceiptLine(recognisedLine));
         }
         r.lines = lines;
         return r;
+    }
+
+    private static ArrayList<ReceiptLine> getReceiptLine(ArrayList<String> recognisedLine) {
+        ArrayList<ReceiptLine> list = new ArrayList<>();
+        if (recognisedLine.size() == 1) {
+            return list;
+        }
+        String potentialPrice = recognisedLine.remove(recognisedLine.size() - 1);
+        Matcher matcher = pricePattern.matcher(potentialPrice);
+        if (!matcher.find()) {
+            potentialPrice = recognisedLine.remove(recognisedLine.size() - 1);
+            matcher = pricePattern.matcher(potentialPrice);
+            if (!matcher.find()) {
+                return list;
+            }
+        }
+
+        String itemTitle = "";
+        BigDecimal price = new BigDecimal(matcher.group());
+        String potentialQuantity = recognisedLine.get(0);
+        Integer quantity = 1;
+        if (potentialQuantity.matches("\\d")) {
+            recognisedLine.remove(0);
+            quantity = Integer.parseInt(potentialQuantity);
+        }
+        potentialQuantity = recognisedLine.get(recognisedLine.size()-1);
+        if (potentialQuantity.matches("\\d")) {
+            recognisedLine.remove(recognisedLine.size() - 1);
+            quantity = Integer.parseInt(potentialQuantity);
+        }
+        for (String word :
+                recognisedLine) {
+            itemTitle += word + " ";
+        }
+        itemTitle = itemTitle.strip();
+        price = price.divide(BigDecimal.valueOf(quantity));
+        for (int i = 0; i < quantity; i++) {
+            list.add(new ReceiptLine(itemTitle, price));
+        }
+
+        return list;
+
+    }
+
+    private static boolean isTotalLine(ArrayList<String> recognisedLine) {
+        for (String word : recognisedLine) {
+            if (word.toUpperCase().contains("TOTAL")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<ReceiptLine> getLines() {
