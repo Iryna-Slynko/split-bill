@@ -45,8 +45,8 @@ class ReceiptTest {
         assertEquals(6, r.getLines().size());
         assertEquals("Panna Cotta", r.getLines().get(0).getTitle());
         assertEquals("Panna Cotta", r.getLines().get(1).getTitle());
-        assertEquals(new BigDecimal("6.00"), r.getLines().get(0).getPrice());
-        assertEquals(new BigDecimal("6.00"), r.getLines().get(1).getPrice());
+        assertEquals(600, r.getLines().get(0).getPrice());
+        assertEquals(600, r.getLines().get(1).getPrice());
 
     }
 
@@ -57,10 +57,10 @@ class ReceiptTest {
         var r = Receipt.fromImageRecognitionResponse(air);
         assertEquals(3, r.getLines().size());
         assertEquals("PANCAKES - MACADAMIA & BL", r.getLines().get(0).getTitle());
-        assertEquals(new BigDecimal ("11.00"), r.getLines().get(0).getPrice());
+        assertEquals(1100, r.getLines().get(0).getPrice());
         assertEquals("LARGE AMERICANO - TS", r.getLines().get(1).getTitle());
-        assertEquals(BigDecimal.valueOf(3.65), r.getLines().get(1).getPrice());
+        assertEquals(365, r.getLines().get(1).getPrice());
         assertEquals("LARGE CAPPUCINO TS", r.getLines().get(2).getTitle());
-        assertEquals(BigDecimal.valueOf(3.95), r.getLines().get(2).getPrice());
+        assertEquals(395, r.getLines().get(2).getPrice());
     }
 }

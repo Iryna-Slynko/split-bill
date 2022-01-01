@@ -1,6 +1,5 @@
 package com.example.splitbill;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -9,13 +8,12 @@ import java.util.List;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
-import com.google.cloud.vision.v1.EntityAnnotation;
 import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
 
-import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class VisionController {
+    @Autowired
+    ReceiptRepository receiptRepository;
 
     @PostMapping("/extract-text")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
-        Receipt r = Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
-       // Receipt r = Receipt.newDemoReceipt2();
+        // Receipt r = Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
+        Receipt r = Receipt.newDemoReceipt();
+        this.receiptRepository.save(r);
         model.addAttribute("receipt",r
                 );
         return "receipt";

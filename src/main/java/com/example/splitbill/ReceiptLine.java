@@ -2,13 +2,13 @@ package com.example.splitbill;
 
 import java.math.BigDecimal;
 
-record ReceiptLine(String title, BigDecimal price) {
+record ReceiptLine(String title, Integer price) {
 
     public String getTitle() {
         return title;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 }

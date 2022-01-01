@@ -111,9 +111,9 @@ public class Receipt {
             itemTitle += word + " ";
         }
         itemTitle = itemTitle.strip();
-        price = price.divide(BigDecimal.valueOf(quantity));
+        Integer priceInCents = price.divide(BigDecimal.valueOf(quantity)).multiply(BigDecimal.valueOf(100)).intValue();
         for (int i = 0; i < quantity; i++) {
-            list.add(new ReceiptLine(itemTitle, price));
+            list.add(new ReceiptLine(itemTitle, priceInCents));
         }
 
         return list;
@@ -128,22 +128,31 @@ public class Receipt {
         return false;
     }
 
-    public ArrayList<ReceiptLine> getLines() {
-        return lines;
+    public void setID(String iD) {
+        ID = iD;
     }
 
-    static public Receipt newDemoReceipt() {
-        Receipt r = new Receipt();
-        r.lines.add(new ReceiptLine("banana", new BigDecimal("5")));
-        r.lines.add(new ReceiptLine("Ice cream", new BigDecimal("5")));
-        r.lines.add(new ReceiptLine("Capuccino", new BigDecimal("3")));
-        r.lines.add(new ReceiptLine("Bread", new BigDecimal("50")));
-        r.lines.add(new ReceiptLine("Water", new BigDecimal("1000")));
+    public void setLines(ArrayList<ReceiptLine> lines) {
+        this.lines = lines;
+    }
 
-        return r;
+    public ArrayList<ReceiptLine> getLines() {
+        return lines;
     }
 
     public String getID() {
         return ID;
     }
+
+    static public Receipt newDemoReceipt() {
+        Receipt r = new Receipt();
+        r.lines.add(new ReceiptLine("banana", 5));
+        r.lines.add(new ReceiptLine("Ice cream", 5));
+        r.lines.add(new ReceiptLine("Capuccino", 3));
+        r.lines.add(new ReceiptLine("Bread", 50));
+        r.lines.add(new ReceiptLine("Water", 1200));
+
+        return r;
+    }
+
 }
