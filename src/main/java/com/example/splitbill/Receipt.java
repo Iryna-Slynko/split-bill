@@ -40,15 +40,18 @@ public class Receipt {
             Boolean added = false;
             if (listPosition.size() > 0) {
                 for (int i = listPosition.size() - 1; i >= 0; i--) {
-                    var result = item.compareLocation(listPosition.get(i));
+                    var result = listPosition.get(i).compareLocation(item);
                     if (result == Rectangle.Position.RIGHT_JOIN) {
                         recognisedList.set(i, recognisedList.get(i) + " " + annotation.getDescription());
+                        listPosition.get(i).merge(item);
                         added = true;
                         break;
-                    } else if ((result == Rectangle.Position.RIGHT_SEPARATE) || (result == Rectangle.Position.LOWER)){
-                        recognisedList.add(i, annotation.getDescription());
-                        listPosition.add(i, item);
-                        added = true;
+                    } else if ((result == Rectangle.Position.RIGHT_SEPARATE) || (result == Rectangle.Position.LOWER)) {
+                        if (i < (recognisedList.size()) - 1) {
+                            recognisedList.add(i, annotation.getDescription());
+                            listPosition.add(i, item);
+                            added = true;
+                        }
                         break;
                     }
                 }

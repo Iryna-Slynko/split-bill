@@ -20,7 +20,7 @@ class RectangleTest {
         Rectangle r1 = new Rectangle(276, 295, 348, 393);
         Rectangle r2 = new Rectangle(322, 389, 348, 393);
         assertNotEquals(Rectangle.Position.RIGHT_JOIN, r.compareLocation(r2));
-        r.merge(r2);
+        r.merge(r1);
         assertEquals(Rectangle.Position.RIGHT_JOIN, r.compareLocation(r2));
     }
 
