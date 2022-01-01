@@ -1,10 +1,11 @@
 package com.example.splitbill;
 
 import com.example.splitbill.utilities.Rectangle;
+import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.cloud.firestore.annotation.PropertyName;
+import com.google.cloud.spring.data.firestore.Document;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.EntityAnnotation;
-
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,10 +15,12 @@ import java.util.regex.Pattern;
 /**
  * Receipt class defines the receipt and contains item list
  */
+@Document(collectionName = "receipts")
 public class Receipt {
-
+    @DocumentId
     private String ID;
 
+    @PropertyName("receipt_lines")
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
     private static Pattern pricePattern = Pattern.compile("^[1-9]\\d*(,|\\.)\\d{2}$");
 
@@ -71,7 +74,6 @@ public class Receipt {
             lines.addAll(getReceiptLines(recognisedLine));
         }
         r.lines = lines;
-        r.ID = RandomStringUtils.randomAlphanumeric(10);
 
         return r;
     }
