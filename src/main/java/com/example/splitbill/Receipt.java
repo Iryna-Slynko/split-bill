@@ -4,6 +4,8 @@ import com.example.splitbill.utilities.Rectangle;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.EntityAnnotation;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -13,6 +15,8 @@ import java.util.regex.Pattern;
  * Receipt class defines the receipt and contains item list
  */
 public class Receipt {
+
+    private String ID;
 
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
     private static Pattern pricePattern = Pattern.compile("^[1-9]\\d*(,|\\.)\\d{2}$");
@@ -67,6 +71,8 @@ public class Receipt {
             lines.addAll(getReceiptLines(recognisedLine));
         }
         r.lines = lines;
+        r.ID = RandomStringUtils.randomAlphanumeric(10);
+
         return r;
     }
 
@@ -133,5 +139,9 @@ public class Receipt {
         r.lines.add(new ReceiptLine("Water", new BigDecimal("1000")));
 
         return r;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

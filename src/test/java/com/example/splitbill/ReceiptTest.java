@@ -1,6 +1,7 @@
 package com.example.splitbill;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -61,5 +62,14 @@ class ReceiptTest {
         assertEquals(BigDecimal.valueOf(3.65), r.getLines().get(1).getPrice());
         assertEquals("LARGE CAPPUCINO TS", r.getLines().get(2).getTitle());
         assertEquals(BigDecimal.valueOf(3.95), r.getLines().get(2).getPrice());
+    }
+
+    @Test
+    void testGenerateRandomID() throws IOException {
+        FileInputStream fis = new FileInputStream("src/fixtures/Mount");
+        var air = AnnotateImageResponse.parseFrom(fis);
+        var r1 = Receipt.fromImageRecognitionResponse(air);
+        var r2 = Receipt.fromImageRecognitionResponse(air);
+        assertNotEquals(r1.getID(), r2.getID(), "Should generate unique IDs");
     }
 }
