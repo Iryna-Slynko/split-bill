@@ -38,7 +38,7 @@ class ReceiptTest {
 
     @Test
     void testOutdoorsFixtureWithGroups() throws IOException {
-        FileInputStream fis = new FileInputStream("src/fixtures/OUTDOORS");
+        FileInputStream fis = new FileInputStream("src/fixtures/Outdoors");
         var air = AnnotateImageResponse.parseFrom(fis);
         var r = Receipt.fromImageRecognitionResponse(air);
         assertEquals(6, r.getLines().size());

@@ -64,13 +64,13 @@ public class Receipt {
             if (isTotalLine(recognisedLine)) {
                 break;
             }
-            lines.addAll(getReceiptLine(recognisedLine));
+            lines.addAll(getReceiptLines(recognisedLine));
         }
         r.lines = lines;
         return r;
     }
 
-    private static ArrayList<ReceiptLine> getReceiptLine(ArrayList<String> recognisedLine) {
+    private static ArrayList<ReceiptLine> getReceiptLines(ArrayList<String> recognisedLine) {
         ArrayList<ReceiptLine> list = new ArrayList<>();
         if (recognisedLine.size() == 1) {
             return list;
@@ -109,7 +109,6 @@ public class Receipt {
         }
 
         return list;
-
     }
 
     private static boolean isTotalLine(ArrayList<String> recognisedLine) {
