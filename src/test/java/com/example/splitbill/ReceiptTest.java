@@ -19,5 +19,10 @@ class ReceiptTest {
         var air = AnnotateImageResponse.parseFrom(fis);
         var r = Receipt.fromImageRecognitionResponse(air);
         assertEquals(5, r.getLines().size());
+        assertEquals("BROWNIE", r.getLines().get(0).getTitle());
+        //assertEquals("Cappucino", r.getLines().get(1).getTitle());
+        assertEquals("Americano coffee", r.getLines().get(2).getTitle());
+        assertEquals("deli", r.getLines().get(3).getTitle());
+        assertEquals("deli", r.getLines().get(4).getTitle());
     }
 }

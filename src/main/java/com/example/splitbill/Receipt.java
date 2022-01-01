@@ -46,10 +46,10 @@ public class Receipt {
                         listPosition.get(i).merge(item);
                         added = true;
                         break;
-                    } else if ((result == Rectangle.Position.RIGHT_SEPARATE) || (result == Rectangle.Position.LOWER)) {
+                    } else if ((result == Rectangle.Position.RIGHT_SEPARATE) || (result == Rectangle.Position.HIGHER)) {
                         if (i < (recognisedList.size()) - 1) {
-                            recognisedList.add(i, annotation.getDescription());
-                            listPosition.add(i, item);
+                            recognisedList.add(i+1, annotation.getDescription());
+                            listPosition.add(i+1, item);
                             added = true;
                         }
                         break;

@@ -31,4 +31,10 @@ class RectangleTest {
         assertEquals(Rectangle.Position.HIGHER, r.compareLocation(r1));
     }
 
+    @Test
+    void testRightSeparate() {
+        Rectangle r = new Rectangle(33, 116, 476, 504);
+        Rectangle r1 = new Rectangle(463, 509, 474, 501);
+        assertEquals(Rectangle.Position.RIGHT_SEPARATE, r.compareLocation(r1));
+    }
 }
