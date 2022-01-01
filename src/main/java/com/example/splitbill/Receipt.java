@@ -146,11 +146,11 @@ public class Receipt {
 
     static public Receipt newDemoReceipt() {
         Receipt r = new Receipt();
-        r.lines.add(new ReceiptLine("banana", 5));
-        r.lines.add(new ReceiptLine("Ice cream", 5));
-        r.lines.add(new ReceiptLine("Capuccino", 3));
-        r.lines.add(new ReceiptLine("Bread", 50));
-        r.lines.add(new ReceiptLine("Water", 1200));
+        r.lines.add(new ReceiptLine("banana", 500));
+        r.lines.add(new ReceiptLine("Ice cream", 493));
+        r.lines.add(new ReceiptLine("Capuccino", 315));
+        r.lines.add(new ReceiptLine("Bread", 5000));
+        r.lines.add(new ReceiptLine("Water", 120000));
 
         return r;
     }
