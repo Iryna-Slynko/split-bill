@@ -29,7 +29,7 @@ public class VisionController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
         // Receipt r = Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
         Receipt r = Receipt.newDemoReceipt();
-        this.receiptRepository.save(r);
+        this.receiptRepository.save(r).block();
         model.addAttribute("receipt",r
                 );
         return "receipt";

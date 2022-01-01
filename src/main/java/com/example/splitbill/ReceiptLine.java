@@ -1,8 +1,27 @@
 package com.example.splitbill;
 
-import java.math.BigDecimal;
+public class ReceiptLine {
 
-record ReceiptLine(String title, Integer price) {
+
+    public ReceiptLine() {
+
+    }
+
+    public ReceiptLine(String title, Integer price){
+        this.price = price;
+        this.title = title;
+    }
+
+    private Integer price;
+    private String title;
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;
