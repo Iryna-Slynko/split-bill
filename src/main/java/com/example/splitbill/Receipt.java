@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class Receipt {
 
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
-    private static Pattern pricePattern = Pattern.compile("^[1-9]\\d*(,|.)\\d{2}$");
+    private static Pattern pricePattern = Pattern.compile("^[1-9]\\d*(,|\\.)\\d{2}$");
 
     public static Receipt fromImageRecognitionResponse(AnnotateImageResponse res) {
         ArrayList<String> recognisedList = new ArrayList<>();
