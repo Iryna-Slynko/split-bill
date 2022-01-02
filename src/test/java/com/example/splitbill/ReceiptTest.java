@@ -1,16 +1,12 @@
 package com.example.splitbill;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 import com.google.cloud.vision.v1.AnnotateImageResponse;
+
 import org.junit.jupiter.api.Test;
 
 class ReceiptTest {
