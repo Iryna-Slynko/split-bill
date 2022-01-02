@@ -48,22 +48,22 @@
             </tbody>
         </table>
         <a href="/receipt" th:href="@{/receipt/{receiptId}(receiptId=${receipt.getID()})}">Share the link</a>
-        <div id="name-modal" class="modal" data-bs-keyboard="false" data-backdrop="static"  tabindex="-1">
+        <div id="name-modal" class="modal" data-bs-keyboard="false" data-backdrop="static" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Introduce yourself</h5>
                     </div>
                     <form>
-                    <div class="modal-body">
+                        <div class="modal-body">
                             <div class="mb-3">
                                 <label for="introduction-name" class="col-form-label">Your name:</label>
                                 <input id="introduction-name" type="text" class="form-control">
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -72,36 +72,36 @@
     </main>
 </body>
 <script>
-    function enableEditing() {
-        document.querySelectorAll('input').forEach(function (element) {
-            element.removeAttribute('disabled');
-        });
-    }
-
+    'use strict';
     const modal = document.getElementById('name-modal');
     const myModal = new bootstrap.Modal(modal);
-    let username = null;
-    document.cookie.split(';').forEach(function (el) {
-        const [k, v] = el.split('=');
-        const key = k.trim();
-        if (key === 'username') {
-            username = v;
+
+    function enableEditing() {
+        if ((username !== "") && (username !== null)) {
+            document.querySelectorAll('input').forEach(function (element) {
+                element.removeAttribute('disabled');
+            });
+        } else {
+            myModal.show();
         }
-    })
+    }
+
+    let username = localStorage.getItem('username');
+    let userId = localStorage.getItem('userid') || crypto.randomUUID();
+
     modal.addEventListener('hidden.bs.modal', function (event) {
-        username = document.getElementById('introduction-name').value;
-        document.cookie = 'username=' + username;
+        username = document.getElementById('introduction-name').value.trim();
+        localStorage.setItem("username", username);
+        localStorage.setItem("userid", userId);
         enableEditing();
     });
-    document.getElementsByTagName('form')[0].addEventListener('submit', function(event) {
+    document.getElementsByTagName('form')[0].addEventListener('submit', function (event) {
         event.preventDefault();
         myModal.hide();
     });
-    if (username !== null) {
-        enableEditing();
-    } else {
-        myModal.show();
-    }
+
+    enableEditing();
+
 
     document.querySelector("#receipt-table").addEventListener("click", function (event) {
         const element = event.target.closest("tr");
