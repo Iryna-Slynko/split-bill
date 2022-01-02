@@ -38,7 +38,7 @@
             </thead>
             <tbody id="receipt-table">
                 <tr th:each="prod: ${receipt.getLines()}">
-                    <th scope="row"><input type="checkbox"></th>
+                    <th scope="row"><input type="checkbox" disabled="disabled"></th>
                     <td th:text="${prod.getTitle()}">Oranges</td>
                     <td th:text="${#numbers.formatDecimal(prod.getPrice()/100.0, 1, 2)}">0.99</td>
                 </tr>
@@ -48,10 +48,14 @@
     </main>
 </body>
 <script>
+
     document.querySelector("#receipt-table").addEventListener("click", function (event) {
         var element = event.target.closest("tr");
         let checkbox = element.getElementsByTagName("input")[0];
         if (checkbox === event.target) {
+            return;
+        }
+        if (checkbox.disabled) {
             return;
         }
 
