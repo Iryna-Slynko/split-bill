@@ -1,5 +1,7 @@
 package com.example.splitbill;
 
+import com.google.cloud.firestore.annotation.DocumentId;
+
 public class ReceiptLine {
 
 
@@ -14,6 +16,8 @@ public class ReceiptLine {
 
     private Integer price;
     private String title;
+    @DocumentId
+    private String id;
 
     public void setPrice(Integer price) {
         this.price = price;
@@ -29,5 +33,13 @@ public class ReceiptLine {
 
     public Integer getPrice() {
         return price;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -42,7 +42,7 @@
             </thead>
             <tbody id="receipt-table">
                 <tr th:each="prod: ${receipt.getLines()}">
-                    <th scope="row"><input type="checkbox" disabled="disabled"></th>
+                    <th scope="row"><input type="checkbox" disabled="disabled" th:data-row-id="${prod.getId()}"></th>
                     <td th:text="${prod.getTitle()}">Oranges</td>
                     <td th:text="${#numbers.formatDecimal(prod.getPrice()/100.0, 1, 2)}">0.99</td>
                 </tr>
