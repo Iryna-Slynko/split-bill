@@ -14,10 +14,14 @@ public class ReceiptController {
 
         @GetMapping("/receipt")
         public void receipt(@RequestParam(name = "name", required = false, defaultValue = "Owner") String name,
+        @RequestParam(name = "userid", required = false, defaultValue = "123") String ownerId,
                         Model model) {
+                                var r = Receipt.newDemoReceipt();
+                                r.setOwnerId(ownerId);;
+                                r.setOwnerName(name);
                 model.addAttribute("name", name);
-                model.addAttribute("receipt",
-                                Receipt.newDemoReceipt());
+                model.addAttribute("receipt", r
+                                );
         }
 
         @GetMapping("/receipt/{id}")

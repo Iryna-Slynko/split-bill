@@ -7,6 +7,11 @@ function enableEditing() {
     document.querySelectorAll('input').forEach(function (element) {
       element.removeAttribute('disabled');
     });
+    const userIdInput = document.getElementById('userid');
+    if (userIdInput !== null) {
+      userIdInput.value = userId;
+      document.getElementById('username').value = username;
+    }
     document.getElementById('user-header').innerText = "Welcome, " + username;
   } else {
     myModal.show();

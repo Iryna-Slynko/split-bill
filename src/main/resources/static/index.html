@@ -21,16 +21,21 @@
         <a href="/receipt">Click ME</a>
         <p>Read and extract the text from the image:</p>
         <form method="POST" enctype="multipart/form-data" action="/extract-text">
-            <table>
-                <tr>
-                    <td>File to upload:</td>
-                    <td><input type="file" name="file" /></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Upload" /></td>
-                </tr>
-            </table>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <label for="file" class="form-label">Choose receipt image</label>
+                        <input class="form-control" name="file" type="file" id="file">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="userid" id="userid">
+                        <input type="hidden" name="username" id="username">
+                        <button class="btn btn-primary" type="submit">Upload</button>
+                    </div>
+                </div>
+            </div>
         </form>
         <div id="name-modal" class="modal" data-bs-keyboard="false" data-backdrop="static" tabindex="-1">
             <div class="modal-dialog">

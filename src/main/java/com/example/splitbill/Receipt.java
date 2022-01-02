@@ -19,6 +19,10 @@ import java.util.regex.Pattern;
 public class Receipt {
     @DocumentId
     private String ID;
+    @PropertyName("owner_id")
+    private String ownerId;
+    @PropertyName("owner_name")
+    private String ownerName;
 
     @PropertyName("receipt_lines")
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
@@ -155,4 +159,19 @@ public class Receipt {
         return r;
     }
 
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 }
