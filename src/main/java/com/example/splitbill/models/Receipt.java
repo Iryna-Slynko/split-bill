@@ -48,7 +48,7 @@ public class Receipt {
         // the first element is the whole recognized document - can be verified later
         // array is organised in one of two directions: line by line horizontally(usually), sometimes(vertically)
 
-        for (EntityAnnotation annotation : res.getTextAnnotationsList().stream().skip(1).toList()) {
+        for (EntityAnnotation annotation : res.getTextAnnotationsList().subList(1, res.getTextAnnotationsList().size()-1)) {
             Rectangle item = new Rectangle(annotation.getBoundingPoly().getVerticesList());
             Boolean added = false;
             if (listPosition.size() > 0) {
