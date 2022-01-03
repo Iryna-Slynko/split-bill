@@ -41,9 +41,9 @@
                     <th scope="col">Price</th>
                 </tr>
             </thead>
-            <tbody id="receipt-table">
-                <tr th:each="prod: ${receipt.getLines()}">
-                    <th scope="row"><input type="checkbox" disabled="disabled" th:data-row-id="${prod.getId()}"></th>
+            <tbody id="receipt-table" th:data-receipt-id="${receipt.getID()}">
+                <tr th:each="prod, iStat: ${receipt.getLines()}">
+                    <th scope="row"><input type="checkbox" disabled="disabled" th:data-row-id="${iStat.index}"></th>
                     <td th:text="${prod.getTitle()}">Oranges</td>
                     <td th:text="${#numbers.formatDecimal(prod.getPrice()/100.0, 1, 2)}">0.99</td>
                 </tr>

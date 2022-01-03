@@ -1,6 +1,7 @@
-package com.example.splitbill;
+package com.example.splitbill.models;
 
 import com.example.splitbill.utilities.Rectangle;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.PropertyName;
 import com.google.cloud.spring.data.firestore.Document;
@@ -23,6 +24,7 @@ public class Receipt {
     private String ownerId;
     @PropertyName("owner_name")
     private String ownerName;
+    private Timestamp updatedAt;
 
     @PropertyName("receipt_lines")
     private ArrayList<ReceiptLine> lines = new ArrayList<>();
@@ -173,5 +175,13 @@ public class Receipt {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

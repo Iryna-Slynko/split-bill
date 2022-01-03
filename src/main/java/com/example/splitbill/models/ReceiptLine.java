@@ -1,4 +1,4 @@
-package com.example.splitbill;
+package com.example.splitbill.models;
 
 import com.google.cloud.firestore.annotation.DocumentId;
 
@@ -16,8 +16,25 @@ public class ReceiptLine {
 
     private Integer price;
     private String title;
-    @DocumentId
-    private String id;
+    private String claimedByName;
+
+    public String getClaimedByName() {
+        return claimedByName;
+    }
+
+    public void setClaimedByName(String claimedByName) {
+        this.claimedByName = claimedByName;
+    }
+
+    public String getClaimedByID() {
+        return claimedByID;
+    }
+
+    public void setClaimedByID(String claimedByID) {
+        this.claimedByID = claimedByID;
+    }
+
+    private String claimedByID;
 
     public void setPrice(Integer price) {
         this.price = price;
@@ -35,11 +52,4 @@ public class ReceiptLine {
         return price;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

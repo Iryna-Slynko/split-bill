@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import com.example.splitbill.models.Receipt;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 
 import org.junit.jupiter.api.Test;

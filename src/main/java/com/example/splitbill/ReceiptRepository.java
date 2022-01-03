@@ -1,5 +1,6 @@
 package com.example.splitbill;
 
+import com.example.splitbill.models.Receipt;
 import com.google.cloud.spring.data.firestore.FirestoreReactiveRepository;
 
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;

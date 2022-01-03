@@ -1,3 +1,4 @@
+//@ts-check"
 'use strict';
 const modal = document.getElementById('name-modal');
 const myModal = new bootstrap.Modal(modal);
@@ -18,6 +19,19 @@ function enableEditing() {
   }
 }
 
+function makePutRequest(url) {
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({'userid': userId, 'username': username})
+   }).then(response => response.json())
+  .then(receipt => {
+    console.log(receipt);
+  })
+}
+
 let username = localStorage.getItem('username');
 let userId = localStorage.getItem('userid') || crypto.randomUUID();
 
@@ -36,6 +50,7 @@ enableEditing();
 
 const receiptTable = document.querySelector("#receipt-table");
 if (receiptTable !== null) {
+  const receiptId = receiptTable.dataset.receiptId;
   receiptTable.addEventListener("click", function (event) {
     const element = event.target.closest("tr");
     const checkbox = element.getElementsByTagName("input")[0];
@@ -45,11 +60,13 @@ if (receiptTable !== null) {
     if (checkbox.disabled) {
       return;
     }
-
+    const rowId = checkbox.dataset.rowId;
     checkbox.checked = !checkbox.checked;
     if (checkbox.checked) {
+      makePutRequest('/receipt/'+receiptId+'/claim/'+rowId);
       element.classList.add('table-warning');
     } else {
+      makePutRequest('/receipt/'+receiptId+'/unclaim/'+rowId);
       element.classList.remove('table-warning');
     }
   });

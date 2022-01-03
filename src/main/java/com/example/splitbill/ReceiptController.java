@@ -1,5 +1,6 @@
 package com.example.splitbill;
 
+import com.example.splitbill.models.Receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
