@@ -19,6 +19,9 @@ function updateReceiptData(receipt) {
   }
 
   const receiptLines = receiptTable.getElementsByTagName('tr');
+  let total = 0;
+  let totalList = {};
+  let people = {};
   receipt.lines.forEach((line, i) => {
     const tableLine = receiptLines[i];
     if (line.claimedByID === null) {
@@ -34,32 +37,73 @@ function updateReceiptData(receipt) {
       if (line.claimedByID === userId) {
         checkbox.removeAttribute('disabled');
         tableLine.classList.add('table-warning');
-
+        total += line.price;
       } else {
+
         checkbox.disabled = "disabled";
         tableLine.classList.add('table-danger');
+        const total = totalList[line.claimedByID] || 0;
+        totalList[line.claimedByID] = total + line.price;
+        people[line.claimedByID] = line.claimedByName;
       }
     }
   });
+  if (receipt.ownerId === userId) {
+    const mainElement = document.createElement("div");
+    mainElement.id = "total-data";
+    if (total > 0) {
+      const element = document.createElement("div");
+      element.className = "row";
+      element.innerText = "Your part is " + (total/100.0).toFixed(2);
+      mainElement.appendChild(element);
+    }
+
+    for (const userid in totalList) {
+      if (userid != userId) {
+        if (Object.hasOwnProperty.call(totalList, userid)) {
+          const userOwes = totalList[userid];
+          const userName = people[userid];
+          const element = document.createElement("div");
+          element.className = "row";
+          element.innerText = userName + " owes you " + (userOwes/100.0).toFixed(2);
+          mainElement.appendChild(element);              
+        }
+      }
+    }
+    document.getElementById('total-data').replaceWith(mainElement);
+  } else {
+    if (total > 0) {
+      total /= 100.0;
+      document.getElementById('total').innerText = "You owe " + total.toFixed(2);
+    } else {
+      document.getElementById('total').innerText = "Choose the item!"
+    }
+  }
   timeoutId = setTimeout(pollGetData, 15000);
 }
 
 const pollGetData = async () => {
   const receiptId = receiptTable.dataset.receiptId;
-  fetch('/receipt/' + receiptId + '/data?' + new URLSearchParams({userId: userId, username: username}))
-  .then(response => response.json())
-  .then(updateReceiptData);
+  fetch('/receipt/' + receiptId + '/data?' + new URLSearchParams({
+      userId: userId,
+      username: username
+    }))
+    .then(response => response.json())
+    .then(updateReceiptData);
 }
 
 if (receiptTable !== null) {
   function makePutRequest(url) {
     fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 'userId': userId, 'username': username })
-    }).then(response => response.json())
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'userId': userId,
+          'username': username
+        })
+      }).then(response => response.json())
       .then(updateReceiptData);
   }
 
@@ -107,7 +151,7 @@ function enableEditing() {
 
     if (receiptTable !== null) {
       pollGetData();
-    }  
+    }
   } else {
     myModal.show();
   }
