@@ -7,4 +7,4 @@
 - [?] Design first page
 - [x] Add favicon
 - [ ] Anonymize data for non admins
-- [ ] Add logo
+- [x] Add logo
