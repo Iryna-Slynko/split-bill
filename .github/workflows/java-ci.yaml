@@ -27,7 +27,7 @@ jobs:
         name: 'deploy'
         uses: 'google-github-actions/deploy-appengine@v0'
         with:
-          deliverables: 'src/appengine/app.yaml'
+          deliverables: 'src/main/appengine/app.yaml'
           project_id: 'split-the-bill'
       - name: 'show output'
         run: 'echo ${{ steps.deploy.outputs.url }}'
