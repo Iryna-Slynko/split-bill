@@ -23,11 +23,11 @@ jobs:
         env:
           GOOGLE_CLOUD_PROJECT: myprojectepa
           run: mvn --batch-mode --update-snapshots verify
-    - id: 'deploy'
-      name: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v0'
-      with:
-        deliverables: 'src/appengine/app.yaml'
-        project_id: 'split-the-bill'
-    - name: 'show output'
-      run: 'echo ${{ steps.deploy.outputs.url }}'
+      - id: 'deploy'
+        name: 'deploy'
+        uses: 'google-github-actions/deploy-appengine@v0'
+        with:
+          deliverables: 'src/appengine/app.yaml'
+          project_id: 'split-the-bill'
+      - name: 'show output'
+        run: 'echo ${{ steps.deploy.outputs.url }}'
