@@ -22,7 +22,7 @@ jobs:
       - name: Build with Maven
         env:
           GOOGLE_CLOUD_PROJECT: split-the-bill
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn --batch-mode --update-snapshots verify package
       - id: 'deploy'
         name: 'deploy'
         uses: 'google-github-actions/deploy-appengine@v0'
