@@ -32,11 +32,11 @@ public class ClaimController {
                                            @RequestBody UserInfo user) {
         Receipt r = receiptRepository.findById(id).block();
         var line = r.getLines().get(item_number);
-        if (line.getClaimedByID() == user.getUserId()) {
+        if (line.getClaimedByID().equals(user.getUserId())) {
             line.setClaimedByID(null);
             line.setClaimedByName(null);
             r.setUpdatedAt(Timestamp.now());
-            r= receiptRepository.save(r).block();
+            r = receiptRepository.save(r).block();
         }
         return ResponseEntity.ok(r);
     }
