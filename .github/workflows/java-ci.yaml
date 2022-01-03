@@ -21,8 +21,8 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         env:
-          GOOGLE_CLOUD_PROJECT: myprojectepa
-          run: mvn --batch-mode --update-snapshots verify
+          GOOGLE_CLOUD_PROJECT: split-the-bill
+        run: mvn --batch-mode --update-snapshots verify
       - id: 'deploy'
         name: 'deploy'
         uses: 'google-github-actions/deploy-appengine@v0'
