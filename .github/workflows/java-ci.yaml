@@ -19,15 +19,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name: Build with Maven
+      - name: Build, test and deploy with Maven
         env:
-          GOOGLE_CLOUD_PROJECT: split-the-bill
-        run: mvn --batch-mode --update-snapshots verify package
-      - id: 'deploy'
-        name: 'deploy'
-        uses: 'google-github-actions/deploy-appengine@v0'
-        with:
-          deliverables: 'src/main/appengine/app.yaml'
-          project_id: 'split-the-bill'
-      - name: 'show output'
-        run: 'echo ${{ steps.deploy.outputs.url }}'
+          GOOGLE_CLOUD_PROJECT: split-our-bill
+        run: mvn --batch-mode --update-snapshots verify package appengine:deploy
