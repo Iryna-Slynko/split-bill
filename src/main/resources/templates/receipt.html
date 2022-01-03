@@ -15,7 +15,7 @@
             position: relative;
         }
 
-        tr.table-warning td:before {
+        tr.table-warning td.details:before {
             content: " ";
             position: absolute;
             top: 50%;
@@ -39,13 +39,15 @@
                     <th class="col-2" scope="col">Claimed</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Claimed by</th>
                 </tr>
             </thead>
             <tbody id="receipt-table" th:data-receipt-id="${receipt.getID()}">
                 <tr th:each="prod, iStat: ${receipt.getLines()}">
                     <th scope="row"><input type="checkbox" disabled="disabled" th:data-row-id="${iStat.index}"></th>
-                    <td th:text="${prod.getTitle()}">Oranges</td>
-                    <td th:text="${#numbers.formatDecimal(prod.getPrice()/100.0, 1, 2)}">0.99</td>
+                    <td class="details" th:text="${prod.getTitle()}">Oranges</td>
+                    <td class="details" th:text="${#numbers.formatDecimal(prod.getPrice()/100.0, 1, 2)}">0.99</td>
+                    <td class="claimed-by"></td>
                 </tr>
             </tbody>
         </table>

@@ -26,12 +26,15 @@ function updateReceiptData(receipt) {
       const checkbox = tableLine.getElementsByTagName('input')[0];
       checkbox.removeAttribute('disabled');
       checkbox.checked = false;
+      tableLine.getElementsByClassName('claimed-by')[0].innerText = '';
     } else {
       const checkbox = tableLine.getElementsByTagName('input')[0];
       checkbox.checked = true;
+      tableLine.getElementsByClassName('claimed-by')[0].innerText = line.claimedByName;
       if (line.claimedByID === userId) {
         checkbox.removeAttribute('disabled');
         tableLine.classList.add('table-warning');
+
       } else {
         checkbox.disabled = "disabled";
         tableLine.classList.add('table-danger');
