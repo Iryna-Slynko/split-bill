@@ -53,7 +53,7 @@ function updateReceiptData(receipt) {
     mainElement.id = "total-data";
     if (total > 0) {
       const element = document.createElement("div");
-      element.className = "row";
+      element.className = "row p-3";
       element.innerText = "Your total is " + (total/100.0).toFixed(2) + "€";
       mainElement.appendChild(element);
     }
@@ -64,7 +64,7 @@ function updateReceiptData(receipt) {
           const userOwes = totalList[userid];
           const userName = people[userid];
           const element = document.createElement("div");
-          element.className = "row";
+          element.className = "row p-3";
           element.innerText = userName + " owes you " + (userOwes/100.0).toFixed(2) + "€";
           mainElement.appendChild(element);              
         }
