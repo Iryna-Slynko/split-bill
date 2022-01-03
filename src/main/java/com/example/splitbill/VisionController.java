@@ -31,8 +31,8 @@ public class VisionController {
             @RequestParam(name = "userid", required = true) String ownerId,
             @RequestParam(name = "username", required = true) String ownerName,
             Model model) throws IOException {
-        // Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
-        Receipt r = Receipt.newDemoReceipt();
+        Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
+        //Receipt r = Receipt.newDemoReceipt();
         r.setOwnerId(ownerId);
         r.setOwnerName(ownerName);
         this.receiptRepository.save(r).block();
