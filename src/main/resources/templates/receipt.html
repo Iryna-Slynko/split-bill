@@ -29,8 +29,17 @@
 
 <body>
     <header class="py-5">
-        <h1 class="text-center display-3">Split our bill</h1>
-        <h2 id='user-header' class='text-center'></h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 d-none d-md-flex">
+                    <img class="img-fluid rounded float-start"  src = "/favicon.svg" alt="Logo"/>
+                </div>
+                <div class="col-md-10">
+                <h1 class="text-center display-3">Split our bill</h1>
+                <h2 id='user-header' class='text-center'></h2>
+            </div>
+            </div>
+        </div>
     </header>
     <main class="container table-responsive">
         <h4>Receipt paid by <span th:text="${receipt.getOwnerName()}">Donna</span></h4>
