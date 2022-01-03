@@ -1,11 +1,10 @@
 
+- [x] Claim in database
+- [x] Unclaim in database
 - [ ] Logout
 - [ ] Total calculate
-- [ ] Claim in database
-- [ ] Unclaim in database
-- [ ] Generate IDs for items
-- [ ] Transactional update
 - [x] Add owner to the bill
 - [?] Design first page
-- [ ] Enter your bill link
-- [ ] Add favicon
+- [x] Add favicon
+- [ ] Anonymize data for non admins
+- [ ] Add logo
