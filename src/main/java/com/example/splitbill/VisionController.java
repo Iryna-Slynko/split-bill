@@ -1,25 +1,19 @@
 package com.example.splitbill;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.splitbill.models.Receipt;
-import com.google.cloud.vision.v1.AnnotateImageRequest;
-import com.google.cloud.vision.v1.AnnotateImageResponse;
-import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
-import com.google.cloud.vision.v1.Feature;
-import com.google.cloud.vision.v1.Image;
-import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class VisionController {
@@ -31,7 +25,7 @@ public class VisionController {
             @RequestParam(name = "userid", required = true) String ownerId,
             @RequestParam(name = "username", required = true) String ownerName,
             Model model) throws IOException {
-        Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
+        Receipt r = Receipt.fromImageRecognitionResponse(detectText(file.getInputStream()));
         //Receipt r = Receipt.newDemoReceipt();
         r.setOwnerId(ownerId);
         r.setOwnerName(ownerName);
