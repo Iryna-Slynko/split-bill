@@ -19,19 +19,6 @@ function enableEditing() {
   }
 }
 
-function makePutRequest(url) {
-  fetch(url, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({'userId': userId, 'username': username})
-   }).then(response => response.json())
-  .then(receipt => {
-    console.log(receipt);
-  })
-}
-
 let username = localStorage.getItem('username');
 let userId = localStorage.getItem('userid') || crypto.randomUUID();
 
@@ -50,6 +37,38 @@ enableEditing();
 
 const receiptTable = document.querySelector("#receipt-table");
 if (receiptTable !== null) {
+  const receiptLines = receiptTable.getElementsByTagName('tr');
+  function makePutRequest(url) {
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 'userId': userId, 'username': username })
+    }).then(response => response.json())
+      .then(receipt => {
+        receipt.lines.forEach((line, i) => {
+          const tableLine = receiptLines[i];
+          if (line.claimedByID === null) {
+            tableLine.classList.remove('table-warning', 'table-danger');
+            const checkbox = tableLine.getElementsByTagName('input')[0];
+            checkbox.removeAttribute('disabled');
+            checkbox.checked = false;
+          } else {
+            const checkbox = tableLine.getElementsByTagName('input')[0];
+            checkbox.checked = true;
+            if (line.claimedByID === userId) {
+              checkbox.removeAttribute('disabled');
+              tableLine.classList.add('table-warning');
+            } else {
+              checkbox.disabled = "disabled";
+              tableLine.classList.add('table-danger');
+            }
+          }
+        });
+      })
+  }
+
   const receiptId = receiptTable.dataset.receiptId;
   receiptTable.addEventListener("click", function (event) {
     const element = event.target.closest("tr");
@@ -63,10 +82,10 @@ if (receiptTable !== null) {
     const rowId = checkbox.dataset.rowId;
     checkbox.checked = !checkbox.checked;
     if (checkbox.checked) {
-      makePutRequest('/receipt/'+receiptId+'/claim/'+rowId);
+      makePutRequest('/receipt/' + receiptId + '/claim/' + rowId);
       element.classList.add('table-warning');
     } else {
-      makePutRequest('/receipt/'+receiptId+'/unclaim/'+rowId);
+      makePutRequest('/receipt/' + receiptId + '/unclaim/' + rowId);
       element.classList.remove('table-warning');
     }
   });

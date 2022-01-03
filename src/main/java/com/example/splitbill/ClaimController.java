@@ -2,6 +2,7 @@ package com.example.splitbill;
 
 import com.example.splitbill.models.Receipt;
 import com.example.splitbill.models.UserInfo;
+import com.google.cloud.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,8 @@ public class ClaimController {
         if (line.getClaimedByID() == null) {
             line.setClaimedByID(user.getUserId());
             line.setClaimedByName(user.getUsername());
-            receiptRepository.save(r);
+            r.setUpdatedAt(Timestamp.now());
+            r = receiptRepository.save(r).block();
         }
         return ResponseEntity.ok(r);
     }
@@ -33,7 +35,8 @@ public class ClaimController {
         if (line.getClaimedByID() == user.getUserId()) {
             line.setClaimedByID(null);
             line.setClaimedByName(null);
-            receiptRepository.save(r);
+            r.setUpdatedAt(Timestamp.now());
+            r= receiptRepository.save(r).block();
         }
         return ResponseEntity.ok(r);
     }
