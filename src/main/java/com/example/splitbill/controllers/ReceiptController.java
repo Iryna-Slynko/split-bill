@@ -1,5 +1,6 @@
-package com.example.splitbill;
+package com.example.splitbill.controllers;
 
+import com.example.splitbill.ReceiptRepository;
 import com.example.splitbill.models.Receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
