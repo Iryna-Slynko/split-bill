@@ -90,6 +90,7 @@
 				<version>2.4.0</version>
 				<configuration>
 					<deploy.projectId>split-our-bill</deploy.projectId>
+					<deploy.version>VERSION</deploy.version>
 				</configuration>
 			</plugin>
 			<plugin>
