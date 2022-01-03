@@ -121,12 +121,13 @@ if (receiptTable !== null) {
     timeoutId = null;
     const rowId = checkbox.dataset.rowId;
     checkbox.checked = !checkbox.checked;
+    document.querySelectorAll('input').forEach(function (el) {
+      el.disabled = "disabled";
+    });
     if (checkbox.checked) {
       makePutRequest('/receipt/' + receiptId + '/claim/' + rowId);
-      element.classList.add('table-warning');
     } else {
       makePutRequest('/receipt/' + receiptId + '/unclaim/' + rowId);
-      element.classList.remove('table-warning');
     }
   });
   receiptTable.addEventListener("change", function (event) {
