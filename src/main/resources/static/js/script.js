@@ -25,7 +25,7 @@ function makePutRequest(url) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({'userid': userId, 'username': username})
+    body: JSON.stringify({'userId': userId, 'username': username})
    }).then(response => response.json())
   .then(receipt => {
     console.log(receipt);
