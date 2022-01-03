@@ -54,7 +54,7 @@ function updateReceiptData(receipt) {
     if (total > 0) {
       const element = document.createElement("div");
       element.className = "row";
-      element.innerText = "Your part is " + (total/100.0).toFixed(2);
+      element.innerText = "Your total is " + (total/100.0).toFixed(2) + "€";
       mainElement.appendChild(element);
     }
 
@@ -65,7 +65,7 @@ function updateReceiptData(receipt) {
           const userName = people[userid];
           const element = document.createElement("div");
           element.className = "row";
-          element.innerText = userName + " owes you " + (userOwes/100.0).toFixed(2);
+          element.innerText = userName + " owes you " + (userOwes/100.0).toFixed(2) + "€";
           mainElement.appendChild(element);              
         }
       }
@@ -74,7 +74,7 @@ function updateReceiptData(receipt) {
   } else {
     if (total > 0) {
       total /= 100.0;
-      document.getElementById('total').innerText = "You owe " + total.toFixed(2);
+      document.getElementById('total').innerText = "You owe " + total.toFixed(2) + "€";
     } else {
       document.getElementById('total').innerText = "Choose the item!"
     }
